@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video Demo</title>
+    <style>
+      #video {
+        width: 100%;
+        height: auto;
+      }
+
+      #video.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="play-btn">点击播放</button>
+    <video id="video" poster="poster.jpg">
+      <source src="test.mp4" type="video/mp4" />
+    </video>
+
+    <script>
+      const video = document.getElementById("video");
+      const playBtn = document.getElementById("play-btn");
+
+      playBtn.addEventListener("click", () => {
+        video.classList.add("fullscreen");
+        video.play();
+        video.requestFullscreen();
+      });
+
+      video.addEventListener("click", () => {
+        video.classList.remove("fullscreen");
+        video.pause();
+        document.exitFullscreen();
+      });
+    </script>
+  </body>
+</html>

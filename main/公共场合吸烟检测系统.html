@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>公共场合吸烟检测系统</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./公共场所吸烟检测系统.css">
+</head>
+<body>
+	<div class="container">
+		<h1>待监测图片/视频上传</h1>
+	</br>
+		<input type="file" id="input-file" accept="image/*, video/*">
+		<div id="preview-container"></div>
+		<div class="button-container">
+			<button id="play-btn">监测并显示结果</button>
+		</div>
+		<video id="video" poster="poster.jpg">
+		<source src="test.mp4" type="video/mp4" />
+		</video>
+	</div>
+
+	<script>
+		const input = document.getElementById('input-file');
+		const previewContainer = document.getElementById('preview-container');
+		// 监听文件选择事件
+		input.addEventListener('change', () => {
+			const file = input.files[0];
+			if (file) {
+				const reader = new FileReader();
+
+				// 监听文件读取完成事件
+				reader.addEventListener('load', () => {
+					if (file.type.startsWith('image/')) {
+						// 如果是图片文件，创建一个 img 元素并显示
+						const img = new Image();
+						img.src = reader.result;
+						previewContainer.innerHTML = '';
+						previewContainer.appendChild(img);
+					} else if (file.type.startsWith('video/')) {
+						// 如果是视频文件，创建一个 video 元素并显示
+						const video = document.createElement('video');
+						video.src = reader.result;
+						video.controls = true;
+						previewContainer.innerHTML = '';
+						previewContainer.appendChild(video);
+					} else {
+						// 文件类型不支持
+						alert('不支持的文件类型');
+					}
+				});
+
+				// 读取文件内容
+				reader.readAsDataURL(file);
+			}
+		});
+		const video = document.getElementById("video");
+		const playBtn = document.getElementById("play-btn");
+
+		playBtn.addEventListener("click", () => {
+			video.classList.add("fullscreen");
+			video.play();
+			video.requestFullscreen();
+		});
+
+		video.addEventListener("click", () => {
+			video.classList.remove("fullscreen");
+			video.pause();
+			document.exitFullscreen();
+		});
+	</script>
+
+</body>
+</html>
